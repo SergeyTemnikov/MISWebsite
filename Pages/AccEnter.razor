@@ -1,0 +1,25 @@
+﻿@page "/accEnter"
+@inject AdminAcc admin
+
+<PageTitle>Вход</PageTitle>
+
+<div class="mainBlock">
+	<div class="accEnterBlock dataInputBlock">
+		<p class="mainText">Вход</p>
+		<p class="sideText">Введите Email:</p>
+		<input type="email" class="inputBlock" />	
+		<p class="sideText">Введите пароль:</p>
+		<input type="password" class="inputBlock "/>
+		<button class="btnEnter" @onclick="() => setAdminClick()">Вход</button>
+	</div>
+</div>
+
+
+
+
+@code {
+	public void setAdminClick()
+	{
+		admin.setAdmin();
+	}
+}

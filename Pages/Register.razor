@@ -1,0 +1,146 @@
+﻿@page "/register"
+@using Microsoft.Extensions.Logging
+@inject DBHelper dbh
+<PageTitle>Регистрация пациента</PageTitle>
+
+<div class="mainBlock">
+	<div class="dataInputBlock">
+		<p class="mainText">Регистрация пациента</p>
+		<div class="emailInput">
+			<p class="sideText">Введите Email:</p>
+			<input type="email" class="inputBlock" @bind-value="person.Email"/>
+			<p class="sideText">Введите номер телефона:</p>
+			<input type="text" class="inputBlock" @bind-value="person.PhoneNumber"/>
+		</div>
+		<div class="nameInput">
+			<p class="sideText">Введите Имя:</p>
+			<input type="text" class="inputBlock" @bind-value="person.FirstName" />
+			<p class="sideText">Введите Фамилию:</p>
+			<input type="text" class="inputBlock" @bind-value="person.SecondName" />
+			<p class="sideText">Введите Отчество:</p>
+			<input type="text" class="inputBlock" @bind-value="person.FatherName" />
+			<p class="sideText">Выберите пол:</p>
+			<InputSelect class="select" @onclick="() => setList()" @bind-Value="person.IdGender">
+				<select id="standard-select">
+					<option value="">Выберите</option>
+					@foreach(var gender in genders)
+					{
+						<option value="@gender.Id">@gender.Name</option>
+					}
+				</select>
+				<span class="focus"></span>
+			</InputSelect>
+			<p class="sideText">Выберите дату рождения:</p>
+			<input type="date" class="inputBlock" @bind-value="dateOfBirth" />
+			<p class="sideText">Введите адрес проживания:</p>
+			<input type="text" class="inputBlock" @bind-value="person.Address" />
+		</div>
+		<div class="docInput">
+			<p class="sideText">Введите серию и номер паспорта:</p>
+			<input type="text" class="inputBlock" @bind-value="person.PassportData" />
+		</div>
+		<div class="workInput">
+			<p class="sideText">Введите место работы:</p>
+			<input type="text" class="inputBlock" @bind-value="person.Job" />
+		</div>
+		<div class="insInput">
+			<p class="sideText">Введите номер мед. страховки:</p>
+			<input type="text" class="inputBlock" @bind-value="medInsurance.Number" />
+			<p class="sideText">Введите дату окончания страховки:</p>
+			<input type="date" class="inputBlock" @bind-value="dateOfEnd" />
+			<p class="sideText">Введите страховую компанию:</p>
+			<input type="text" class="inputBlock" @bind-value="medInsurance.InsuranceCompany" />
+		</div>
+		<div class="cardInput">
+			<p class="sideText">Введите номер мед. карты:</p>
+			<input type="text" class="inputBlock" @bind-value="medCard.Number" />
+			<p class="sideText">Введите дату получения карты:</p>
+			<input type="date" class="inputBlock" @bind-value="dateOfRecieving" />
+		</div>
+		<button class="btnEnter" @onclick="() => registerClick()"><a style="btnStyle" href="">Регистрация</a></button>
+	</div>
+</div>
+
+@code {
+	static MedDbContext _db;
+	private Person person = new Person();
+	private MedCard medCard = new();
+	private MedInsurance medInsurance = new();
+	private List<Gender> genders = new();
+	private DateTime dateOfBirth;
+	private DateTime dateOfRecieving;
+	private DateTime dateOfEnd;
+
+	private void newPerson()
+	{
+		_db = DBHelper._db;
+		Guid guid = new Guid();
+		Console.WriteLine(guid);
+		medCard.QrNumber = guid.ToString();
+		_db.MedCards.Add(medCard);
+		_db.MedInsurances.Add(medInsurance);
+		try
+		{
+			_db.SaveChanges();
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine(ex);
+		}
+		person.IdMedCard = _db.MedCards.ToList().Where(x => x.Id == medCard.Id).FirstOrDefault()?.Id;
+		person.IdMedInsurance = _db.MedInsurances.ToList().Where(x => x.Id == medInsurance.Id).FirstOrDefault()?.Id;
+		_db.Person.Add(person);
+		try
+		{
+			_db.SaveChanges();
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine(ex);
+		}
+	}
+
+	public void setList(){
+		genders = _db.Genders.ToList();		
+	}
+
+	public DateTime reformData(DateTime dt)
+	{
+		return dt.Date;
+	}
+
+	public void setPersonDate()
+	{
+		person.DateOfBirth = reformData(dateOfBirth);
+	}
+
+	public void setCardDate()
+	{
+		medCard.DateOfReceiving = reformData(dateOfRecieving);
+	}
+
+	public void setMedDate()
+	{
+		medInsurance.DateOfEnd = reformData(dateOfEnd);
+	}
+
+	public void registerClick()
+	{
+		newPerson();
+	}
+
+
+
+}
+
+
+@* <input value="@stringValue" @oninput="(EventArgs) => {SetValue(EventArgs.Value.ToString()); DoSomethingElse();}" />
+
+@code {
+	string stringValue = "";
+
+	private void SetValue(string Value)
+	{
+		stringValue = int.Parse(Value);
+	}
+} *@

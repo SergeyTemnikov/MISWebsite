@@ -1,0 +1,112 @@
+﻿*{
+    margin: 0;
+    padding: 0;
+}
+
+.mainBlock{
+    width: auto;
+    height:auto;
+    display:flex;
+    justify-content:center;
+}
+
+.dataInputBlock {
+    border: 2px solid gray;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: gray 10px 10px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.mainText{
+    #margin-top: 15px;
+    font-size: 32px;
+    font-weight:700;
+}
+
+.sideText {
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.inputBlock{
+    border:none;
+    border-bottom: 2px solid black;
+    border-radius: 2px;
+    width: 300px;
+}
+
+.inputBlock:focus{
+    outline: none;
+}
+
+select {
+    border: none;
+    border-bottom: 2px solid black;
+    border-radius: 2px;
+    width: 300px;
+}
+
+.passwordInput{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.passwordRef{
+    width:300px;
+    text-align: end;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 5px;
+}
+
+.btnEnter{
+    height: 40px;
+    font-size: 22px;
+    font-weight: 600;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.btnEnter:hover{
+    background: gray;
+}
+
+.registerRefBlock{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    width: max-content;
+}
+
+.regRefText{
+    font-size: 16px;
+    font-weight: 500;
+    text-align: end;
+    width: 270px;
+    margin-right: 10px;
+}
+
+.regRef {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.btnStyle {
+    color: black;
+    text-decoration: none;
+}
+
+.btnStyle:link{
+    color: black;
+    text-decoration: none;
+}
+
+.btnStyle:visited {
+    color: black;
+    text-decoration: none;
+}
